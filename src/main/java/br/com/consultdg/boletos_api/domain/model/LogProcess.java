@@ -38,6 +38,7 @@ public class LogProcess {
     private String valor;
     private String documento;
     private TipoBoleto tipoBoleto;
+    // @Column(name = "dataCriacao")
     private Instant dataCriacao = Instant.now();
     private Boolean processadoDg = false;
     private Instant dataProcemamentoDg;

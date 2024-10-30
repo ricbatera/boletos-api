@@ -15,16 +15,16 @@ public interface LogProcessRepository extends JpaRepository<LogProcess, Long>{
 
     // List<LogProcess> findByUsuarioCriacao(Usuario user);
     
-    @Query(value="select * from tb_log_process where dataCriacao > ? and usuario_criacao_id = ? order by dataCriacao desc", nativeQuery = true)
+    @Query(value="select * from tb_log_process where data_criacao > ? and usuario_criacao_id = ? order by data_criacao desc", nativeQuery = true)
     List<LogProcess> findByDataCriacaoHoje(String dataCriacao, UUID userID);
     
-    @Query(value="select * from tb_log_process where dataCriacao > ? order by dataCriacao desc", nativeQuery = true)
+    @Query(value="select * from tb_log_process where data_criacao > ? order by data_criacao desc", nativeQuery = true)
     List<LogProcess> findByDataCriacaoHojeFull(String dataCriacao);
     
-    @Query(value="select * from tb_log_process where dataCriacao between ? and ? and usuario_criacao_id = ? order by dataCriacao desc", nativeQuery = true)
+    @Query(value="select * from tb_log_process where data_criacao between ? and ? and usuario_criacao_id = ? order by data_criacao desc", nativeQuery = true)
     List<LogProcess> findByDataCriacaoStartEnd(String startDate, String endDate, UUID userID);
     
-    @Query(value="select * from tb_log_process where dataCriacao between ? and ? order by dataCriacao desc", nativeQuery = true)
+    @Query(value="select * from tb_log_process where data_criacao between ? and ? order by data_criacao desc", nativeQuery = true)
     List<LogProcess> findByDataCriacaoStartEndFull(String startDate, String endDate);   
 
 }
