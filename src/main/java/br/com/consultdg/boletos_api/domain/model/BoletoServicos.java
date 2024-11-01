@@ -26,6 +26,7 @@ public class BoletoServicos {
 	private String valor;
     private String codBarras;        
     private String numeroDocumento;
+    private String cnpjPagador;
     private String nomeArquivo;
     private Instant dataCriacao = Instant.now();
     private Instant dataProcemamentoDg;

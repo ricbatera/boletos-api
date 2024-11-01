@@ -33,6 +33,7 @@ public class BoletoComum {
 	private String linhaDigitavel;    
     private String numeroDocumento;
     private String nomeArquivo;
+    private String cnpjPagador;
     private String tipoBoleto = "Alugueis e outros";
     private Boolean processadoDg = false;
     private Boolean enviadoParaBaseDg = false;

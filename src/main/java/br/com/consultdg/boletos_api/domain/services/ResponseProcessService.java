@@ -54,7 +54,7 @@ public class ResponseProcessService {
             boleto.setCodBarras(log.getCodBarras());
             boleto.setDataCriacao(log.getDataCriacao());
             boleto.setDataVencimento(log.getDataVencimento());
-            boleto.setDocumento(log.getDocumento());
+            boleto.setNumeroDocumento(log.getNumeroDocumento());
             boleto.setId(log.getId());
             boleto.setNomeBoleto(log.getNomeBoleto());
             boleto.setNomeDoArquivo(log.getNomeDoArquivo());

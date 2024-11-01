@@ -36,7 +36,7 @@ public class LogProcess {
     private String codBarras;
     private String dataVencimento;
     private String valor;
-    private String documento;
+    private String numeroDocumento;
     private TipoBoleto tipoBoleto;
     // @Column(name = "dataCriacao")
     private Instant dataCriacao = Instant.now();

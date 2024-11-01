@@ -16,7 +16,7 @@ public class ItemListProcessResponse {
     private String codBarras;
     private String dataVencimento;
     private String valor;
-    private String documento;
+    private String numeroDocumento;
     private TipoBoleto tipoBoleto;
     private Instant dataCriacao;
     private Boolean processado;
