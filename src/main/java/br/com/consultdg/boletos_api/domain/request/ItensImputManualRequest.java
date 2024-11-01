@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class ItensImputManualRequest {
+    private Long id;
     private String nomeItem;
     private String valor;
     private Instant dataCriacao = Instant.now();

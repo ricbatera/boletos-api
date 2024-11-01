@@ -10,7 +10,8 @@ import java.util.ArrayList;
 @Data
 public class InputManualRequest {
     
-    private int idTabelaLog;
+    private Long id;
+    private Long idTabelaLog;
     private String codBarras;
     private String dataVencimento;
     private String valor;
@@ -22,5 +23,5 @@ public class InputManualRequest {
     private Instant dataProcemamentoDg;
     private String nomeArquivo;
     private Instant dataCriacao = Instant.now();
-    List<ItensImputManualRequest> itens = new ArrayList<>();
+    List<ItensImputManualRequest> itensBoleto = new ArrayList<>();
 }

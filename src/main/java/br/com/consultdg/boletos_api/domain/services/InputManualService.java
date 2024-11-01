@@ -19,6 +19,7 @@ import br.com.consultdg.boletos_api.domain.repository.BoletoComumRepository;
 import br.com.consultdg.boletos_api.domain.repository.BoletoServicosRepository;
 import br.com.consultdg.boletos_api.domain.repository.LogProcessRepository;
 import br.com.consultdg.boletos_api.domain.request.InputManualRequest;
+import br.com.consultdg.boletos_api.domain.request.ItensImputManualRequest;
 
 @Service
 public class InputManualService {
@@ -67,12 +68,67 @@ public class InputManualService {
     }
     
     private String imputBoletoComItens(InputManualRequest request) {
-        BoletoComum boletoComum = new BoletoComum();
+        BoletoComum boletoComum = modelMapper.map(request, BoletoComum.class);        
+        LogProcess logProcess = modelMapper.map(request, LogProcess.class);
+        List<ItensImputManualRequest> itensInputManual = request.getItensBoleto();
         List<ItensBoleto> itens = new ArrayList<>();
-        BoletoComumTxtToS3 boletoComumTxtToS3 = new BoletoComumTxtToS3();
-        LogProcess logProcess = new LogProcess();
         List<LogItensBoleto> itensLog = new ArrayList<>();
+
+        for(ItensImputManualRequest i : itensInputManual){
+            // ItensBoleto a =  modelMapper.map(i, ItensBoleto.class);
+            ItensBoleto a =  new ItensBoleto();
+            a.setNomeItem(i.getNomeItem());
+            a.setValor(i.getValor());
+            itens.add(a);
+
+            LogItensBoleto b = modelMapper.map(i, LogItensBoleto.class);
+            itensLog.add(b);
+        }
+        boletoComum.setLojaOrigem("Input Manual");
+        boletoComum.setItensBoleto(itens);
+        logProcess.setItensBoleto(itensLog);
+        boletoComum.setLinhaDigitavel(request.getCodBarras());
+        comumRepo.save(boletoComum);
+        String nomeArquivo = caminhoBucket + request.getNomeArquivo();
+
+
+        logProcess.setNomeBoleto("Input Manual");
+        logProcess.setNomeDoArquivo(nomeArquivo);
+        logProcess.setProcessado(true);
+        logProcess.setSalvo(true);
+        if(request.getIdTabelaLog() != null){
+            salvaNaoProcesados(request, nomeArquivo);
+        }else {
+            logRepo.save(logProcess);
+        }
+        
+
+        gravaTxt.gravaBoletoComum(boletoComum, nomeArquivo);
         return "Input Manual do boleto "+ request.getNomeArquivo() + " efetuado com sucesso!";
+    }
+
+    private void salvaNaoProcesados(InputManualRequest request, String nomeArquivo) {
+        LogProcess logProcess = logRepo.findById(request.getIdTabelaLog()).get();
+        List<LogItensBoleto> itensLog = logProcess.getItensBoleto();
+        List<ItensImputManualRequest> itensInputManual = request.getItensBoleto();
+        logProcess.setNomeBoleto("Input Manual");
+        logProcess.setNomeDoArquivo(nomeArquivo);
+        logProcess.setProcessado(true);
+        logProcess.setSalvo(true);
+        logProcess.setCodBarras(request.getCodBarras());
+        logProcess.setDataVencimento(request.getDataVencimento());
+        logProcess.setValor(request.getValor());
+        logProcess.setProcessadoDg(true);
+
+        for(ItensImputManualRequest i: itensInputManual){
+            if(i.getId() == null){
+                LogItensBoleto b = modelMapper.map(i, LogItensBoleto.class);
+                b.setBoletoLog(logProcess);
+                itensLog.add(b);
+            }
+        }
+        logProcess.setItensBoleto(itensLog);
+        logRepo.save(logProcess);
     }
 
 }
